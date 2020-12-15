@@ -10,4 +10,6 @@ If you don't have `pip` installed, please see [here](https://pip.pypa.io/en/stab
 
 ## Usage (CLI Tool)
 
+1. Place the original image in the `test_files` folder.
 
+2. To generate a new image from the principal components, run `python compress.py <filename> <number of components>`. The filename argument is just the filename, not the path in the directory (ex. to compress `test_files/cat.jpg` with `100` components, run `python compress.py cat.jpg 100`)
