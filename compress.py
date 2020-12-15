@@ -1,10 +1,11 @@
 import os
+from pathlib import Path
 import click
 
 import numpy as np
 from matplotlib.image import imread
 import matplotlib.pyplot as plt
-from pathlib import Path
+
 
 def covariance_matrix(matrix):
     # the columns are each of the measurement types
