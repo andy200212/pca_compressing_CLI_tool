@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib.image import imread
 import matplotlib.pyplot as plt
-
+from pathlib import Path
 import click
 
 def covariance_matrix(matrix):
@@ -45,7 +45,8 @@ def build_color_matrix(color_matrix, num_components):
     
 def create_new_image(file_name, num_components):
     # read image data into a matrix
-    raw = imread(file_name)
+    test_directory = 'test_files/'
+    raw = imread(test_directory+file_name)
     
     # extract the RGB bytes
     r = raw[:, :, 0]
@@ -61,8 +62,9 @@ def create_new_image(file_name, num_components):
     new_image = np.dstack((r_new, g_new, b_new))
     
     # new file name and saving the file
-    new_file_name = file_name.split('.')[0] + '_result.' + file_name.split('.')[1]
-    plt.imsave(new_file_name, new_image)
+    new_file_name = file_name.split('.')[0] + '_' + num_components + '_result.' + file_name.split('.')[1]
+    result_directory = 'result_files/'
+    plt.imsave(result_directory + new_file_name, new_image)
     
     
 ### THE CODE BELOW HAS NOTHING TO DO WITH PCA, FOR PARSING ARGUMENTS OF THE CLI TOOL
@@ -71,10 +73,13 @@ def create_new_image(file_name, num_components):
 @click.argument('filename')
 @click.argument('num_components')
 def main(filename, num_components):
-    click.echo("compressing image {} to {} principal components".format(filename, num_components))
+    if not Path('result_files').is_dir():
+      print("dir not found")
+      os.makedirs('result_files')
+    click.echo("Compressing image {} to {} principal components".format(filename, num_components))
     create_new_image(filename, int(num_components))
-    new_file_name = filename.split('.')[0] + '_result.' + filename.split('.')[1]
-    click.echo(f"image created! check for the {new_file_name} file in your current working directory")
+    new_file_name = filename.split('.')[0] + '_' + num_components + '_result.' + filename.split('.')[1]
+    click.echo(f"Image created! Check for the {new_file_name} file in the result_files folder.")
 
 if __name__ == "__main__":
     main()
